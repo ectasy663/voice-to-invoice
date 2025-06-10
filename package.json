@@ -1,0 +1,41 @@
+{
+  "name": "voice-to-invoice-app",
+  "version": "1.0.0",
+  "description": "A modern React application with Python FastAPI backend for converting voice recordings to invoice PDFs",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev:frontend",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && python -m app.main",
+    "build": "cd frontend && npm run build",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && pip install -r requirements.txt",
+    "install:all": "npm run install:frontend && npm run install:backend",
+    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "test:frontend": "cd frontend && npm run lint",
+    "test:backend": "cd backend && python test_api.py",
+    "clean": "cd frontend && rm -rf node_modules dist && cd ../backend && find . -name '__pycache__' -type d -exec rm -rf {} +"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "python": ">=3.8.0"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "fastapi",
+    "python",
+    "voice-to-text",
+    "invoice",
+    "pdf",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "MIT"
+}
