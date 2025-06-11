@@ -4,7 +4,7 @@ import { sendOTP, verifyOTP } from './apiService';
 // Check if we should use the backend API
 const USE_BACKEND_API = import.meta.env.VITE_USE_BACKEND_API === 'true';
 
-// Legacy mock users for fallback
+// Legacy mock users for fallback with passwords
 const mockUsers: User[] = [
   {
     id: '1',
@@ -15,13 +15,25 @@ const mockUsers: User[] = [
     id: '2',
     email: 'jane.smith@example.com',
     name: 'Jane Smith'
+  },  {
+    id: '3',
+    email: 'demo@thesolutionzone.com',
+    name: 'Demo User'
   },
   {
-    id: '3',
-    email: 'demo@voiceinvoice.com',
-    name: 'Demo User'
+    id: '4',
+    email: 'test@thesolutionzone.com',
+    name: 'Test User'
   }
 ];
+
+// Mock user passwords (in real app, these would be hashed and stored securely)
+const mockPasswords: Record<string, string> = {
+  'john.doe@example.com': 'password123',
+  'jane.smith@example.com': 'password123',
+  'demo@thesolutionzone.com': 'password123',
+  'test@thesolutionzone.com': 'test123'
+};
 
 // Temporary storage for pending authentications (before OTP verification)
 const pendingAuth = new Map<string, { user: User; password: string; type: 'login' | 'signup' }>();
@@ -65,12 +77,16 @@ export const initiateLogin = async (email: string, password: string): Promise<{ 
     
     if (password.length < 6) {
       return { success: false, error: 'Password must be at least 6 characters' };
-    }
-
-    const existingUser = mockUsers.find(user => user.email.toLowerCase() === email.toLowerCase());
+    }    const existingUser = mockUsers.find(user => user.email.toLowerCase() === email.toLowerCase());
     
     if (!existingUser) {
       return { success: false, error: 'No account found with this email address' };
+    }
+
+    // Check password for mock users
+    const expectedPassword = mockPasswords[existingUser.email];
+    if (!expectedPassword || password !== expectedPassword) {
+      return { success: false, error: 'Invalid email or password' };
     }
 
     pendingAuth.set(email, {

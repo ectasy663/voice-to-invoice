@@ -25,9 +25,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);  const [error, setError] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
+  
+  const handleFillDemoCredentials = () => {
+    setEmail('test@thesolutionzone.com');
+    setPassword('test123');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -77,9 +82,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
       setRememberMe(true);
     }
   }, []);
-
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500/20 rounded-full blur-xl animate-pulse" />
@@ -112,18 +116,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
                 >
                   <LogIn className="w-10 h-10 text-white" />
                 </motion.div>
-                
-                <motion.div
+                  <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                 >
                   <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-2">
-                    Welcome Back
+                    Welcome
                   </h1>
                   <p className="text-white/70 text-sm flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4" />
-                    Sign in to continue to VoiceInvoice
+                    Sign in to access live demo
                     <Sparkles className="w-4 h-4" />
                   </p>
                 </motion.div>
@@ -243,17 +246,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Signing you in...
-                    </div>
-                  ) : (
+                    </div>                  ) : (
                     <div className="flex items-center gap-3">
-                      <LogIn className="w-5 h-5" />
                       Sign In
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </div>
                   )}
-                </button>
-
-                {/* Sign Up Link */}
+                </button>{/* Sign Up Link */}
                 <div className="text-center pt-4">
                   <p className="text-white/60 text-sm mb-3">
                     Don't have an account yet?
@@ -272,27 +271,48 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
             </div>
           </div>
 
-          {/* Feature highlights */}
-          <motion.div 
-            className="mt-8 grid grid-cols-3 gap-4 text-center"
+          {/* Demo Credentials Section */}
+          <motion.div
+            className="mt-8 backdrop-blur-xl bg-green-500/10 rounded-2xl border border-green-500/20 shadow-2xl p-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            {[
-              { icon: '🎤', text: 'Voice Recognition' },
-              { icon: '⚡', text: 'Instant Processing' },
-              { icon: '📄', text: 'PDF Generation' }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                className="backdrop-blur-sm bg-white/5 rounded-xl p-3 border border-white/10 hover:bg-white/10 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="text-2xl mb-1">{feature.icon}</div>
-                <div className="text-white/70 text-xs font-medium">{feature.text}</div>
-              </motion.div>
-            ))}
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Shield className="w-5 h-5 text-green-300" />
+                <h3 className="text-lg font-bold text-green-100">Demo Credentials</h3>
+                <Shield className="w-5 h-5 text-green-300" />
+              </div>
+                <div className="space-y-3 text-sm">
+                <div 
+                  className="bg-green-500/20 rounded-lg p-3 border border-green-500/30 cursor-pointer hover:bg-green-500/30 transition-all duration-300"
+                  onClick={handleFillDemoCredentials}
+                >
+                  <p className="text-green-200 font-medium mb-1">Test Email:</p>
+                  <p className="text-white font-mono bg-green-600/20 px-2 py-1 rounded">test@thesolutionzone.com</p>
+                </div>
+                
+                <div 
+                  className="bg-green-500/20 rounded-lg p-3 border border-green-500/30 cursor-pointer hover:bg-green-500/30 transition-all duration-300"
+                  onClick={handleFillDemoCredentials}
+                >
+                  <p className="text-green-200 font-medium mb-1">Test Password:</p>
+                  <p className="text-white font-mono bg-green-600/20 px-2 py-1 rounded">test123</p>
+                </div>
+                
+                <div className="bg-blue-500/20 rounded-lg p-3 border border-blue-500/30">
+                  <p className="text-blue-200 font-medium mb-1">OTP Code:</p>
+                  <p className="text-white font-mono bg-blue-600/20 px-2 py-1 rounded">123456</p>
+                  <p className="text-blue-200 text-xs mt-1">Use this code for OTP verification</p>
+                </div>
+              </div>
+                <div className="mt-4 pt-3 border-t border-green-500/30">
+                <p className="text-green-200 text-xs">
+                  💡 Click the credentials above to quickly fill the form
+                </p>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

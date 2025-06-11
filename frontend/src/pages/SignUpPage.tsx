@@ -111,16 +111,15 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
     if (password.length < 6) return { strength: 25, text: 'Too short', color: 'text-red-400' };
     if (password.length < 8) return { strength: 50, text: 'Weak', color: 'text-orange-400' };
     if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) return { strength: 75, text: 'Good', color: 'text-yellow-400' };
-    return { strength: 100, text: 'Strong', color: 'text-green-400' };
+    return { strength: 100, text: 'Strong', color: 'text-blue-400' };
   };
 
   const passwordStrength = getPasswordStrength(formData.password);
-
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-green-500/20 rounded-full blur-xl animate-pulse" />
+        <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500/20 rounded-full blur-xl animate-pulse" />
         <div className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
       </div>
@@ -136,14 +135,14 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
           {/* Glass morphism card */}
           <div className="backdrop-blur-xl bg-white/10 rounded-3xl border border-white/20 shadow-2xl p-8 relative overflow-hidden">
             {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-indigo-500/10 animate-pulse" />
             
             {/* Content */}
             <div className="relative z-10">
               {/* Logo and Title */}
               <div className="text-center mb-8">
                 <motion.div 
-                  className="mx-auto w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg mb-6"
+                  className="mx-auto w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg mb-6"
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
@@ -156,8 +155,8 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-green-100 to-blue-100 bg-clip-text text-transparent mb-2">
-                    Join VoiceInvoice
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-2">
+                    Join TheSolutionZone
                   </h1>
                   <p className="text-white/70 text-sm flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4" />
@@ -180,7 +179,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                   <div className="grid grid-cols-2 gap-4">
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-white/50 group-focus-within:text-green-400 transition-colors" />
+                        <User className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
                       </div>
                       <input
                         id="firstName"
@@ -188,11 +187,10 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                         type="text"
                         required
                         value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="block w-full pl-10 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300"
+                        onChange={handleInputChange}                        className="block w-full pl-10 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
                         placeholder="First name"
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
                     </div>
 
                     <div className="relative group">
@@ -202,18 +200,17 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                         type="text"
                         required
                         value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="block w-full pl-3 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300"
+                        onChange={handleInputChange}                        className="block w-full pl-3 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
                         placeholder="Last name"
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
                     </div>
                   </div>
 
                   {/* Email Field */}
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-white/50 group-focus-within:text-green-400 transition-colors" />
+                      <Mail className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
                     </div>
                     <input
                       id="email"
@@ -222,27 +219,23 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                       autoComplete="email"
                       required
                       value={formData.email}
-                      onChange={handleInputChange}
-                      className="block w-full pl-10 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300"
+                      onChange={handleInputChange}                      className="block w-full pl-10 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
                       placeholder="Enter your email"
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
-                  </div>
-
-                  {/* Password Field */}
+                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                  </div>                  {/* Password Field */}
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-white/50 group-focus-within:text-green-400 transition-colors" />
+                      <Lock className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
                     </div>
                     <input
                       id="password"
                       name="password"
                       type={showPassword ? "text" : "password"}
                       autoComplete="new-password"
-                      required
-                      value={formData.password}
+                      required                      value={formData.password}
                       onChange={handleInputChange}
-                      className="block w-full pl-10 pr-12 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300"
+                      className="block w-full pl-10 pr-12 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
                       placeholder="Create a password"
                     />
                     <button
@@ -253,10 +246,9 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                       {showPassword ? (
                         <EyeOff className="h-5 w-5" />
                       ) : (
-                        <Eye className="h-5 w-5" />
-                      )}
+                        <Eye className="h-5 w-5" />                      )}
                     </button>
-                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
                   </div>
 
                   {/* Password Strength Indicator */}
@@ -270,27 +262,24 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                       </div>
                       <div className="w-full bg-white/20 rounded-full h-2">
                         <div
-                          className="h-2 rounded-full bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-300"
+                          className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
                           style={{ width: `${passwordStrength.strength}%` }}
                         />
                       </div>
                     </div>
-                  )}
-
-                  {/* Confirm Password Field */}
+                  )}                  {/* Confirm Password Field */}
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-white/50 group-focus-within:text-green-400 transition-colors" />
+                      <Lock className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
                     </div>
                     <input
                       id="confirmPassword"
                       name="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
                       autoComplete="new-password"
-                      required
-                      value={formData.confirmPassword}
+                      required                      value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className="block w-full pl-10 pr-12 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300"
+                      className="block w-full pl-10 pr-12 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
                       placeholder="Confirm your password"
                     />
                     <button
@@ -303,8 +292,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                       ) : (
                         <Eye className="h-5 w-5" />
                       )}
-                    </button>
-                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                    </button>                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
                   </div>
 
                   {/* Password Match Indicator */}
@@ -312,8 +300,8 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                     <div className="flex items-center gap-2 text-sm">
                       {formData.password === formData.confirmPassword ? (
                         <>
-                          <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-green-400">Passwords match</span>
+                          <CheckCircle className="w-4 h-4 text-blue-400" />
+                          <span className="text-blue-400">Passwords match</span>
                         </>
                       ) : (
                         <>
@@ -332,16 +320,15 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                     name="accept-terms"
                     type="checkbox"
                     checked={acceptTerms}
-                    onChange={(e) => setAcceptTerms(e.target.checked)}
-                    className="h-4 w-4 text-green-600 bg-white/10 border-white/30 rounded focus:ring-green-500 focus:ring-offset-0"
+                    onChange={(e) => setAcceptTerms(e.target.checked)}                    className="h-4 w-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500 focus:ring-offset-0"
                   />
                   <label htmlFor="accept-terms" className="ml-2 block text-sm text-white/70">
                     I agree to the{' '}
-                    <button type="button" className="text-green-300 hover:text-green-200 underline">
+                    <button type="button" className="text-blue-300 hover:text-blue-200 underline">
                       Terms of Service
                     </button>
                     {' '}and{' '}
-                    <button type="button" className="text-green-300 hover:text-green-200 underline">
+                    <button type="button" className="text-blue-300 hover:text-blue-200 underline">
                       Privacy Policy
                     </button>
                   </label>
@@ -364,14 +351,13 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                   )}
                 </AnimatePresence>
 
-                {/* Submit Button */}
-                <button
+                {/* Submit Button */}                <button
                   type="submit"
                   disabled={isLoading}
                   className={`group relative w-full flex justify-center items-center py-4 px-6 border border-transparent text-sm font-medium rounded-xl text-white transition-all duration-300 ${
                     isLoading 
                       ? 'bg-white/20 cursor-not-allowed' 
-                      : 'bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
                   }`}
                 >
                   {isLoading ? (

@@ -10,7 +10,9 @@ import {
   Sparkles,
   Shield,
   User,
-  ChevronDown
+  ChevronDown,
+  Bell,
+  CreditCard
 } from 'lucide-react';
 import type { AuthState, RecordingState } from '../types';
 import { 
@@ -28,7 +30,22 @@ interface MainAppPageProps {
 }
 
 const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
-  const [recordingState, setRecordingState] = useState<RecordingState>({
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isDropdownOpen]);  const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
     isProcessing: false,
     transcribedText: '',
@@ -157,7 +174,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
       error: null
     }));
   };  return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Header */}
       <motion.header
         className="relative z-20 backdrop-blur-xl bg-white/10 border-b border-white/20"
@@ -179,42 +196,132 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-                  VoiceInvoice
+                  TheSolutionZone
                 </h1>
                 <p className="text-white/60 text-sm">AI-Powered Solution</p>
               </div>
-            </motion.div>
-
-            {/* User Info & Actions */}
+            </motion.div>            {/* User Info & Actions */}
             <div className="flex items-center gap-6">
-              {/* User Profile */}
-              <motion.div 
-                className="flex items-center gap-3 backdrop-blur-sm bg-white/10 rounded-full px-4 py-2 border border-white/20"
+              {/* Book Consultation CTA */}
+              <motion.a
+                href="#consultation" // You can replace this with your actual link
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full font-medium text-sm hover:from-emerald-600 hover:to-teal-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-emerald-400/30"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.25 }}
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-white font-medium text-sm">
-                  {authState.user?.name || authState.user?.email?.split('@')[0]}
-                </span>
-                <ChevronDown className="w-4 h-4 text-white/60" />
+                <svg 
+                  className="w-4 h-4" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" 
+                  />
+                </svg>
+                <span>Book Consultation</span>
+              </motion.a>
+
+              {/* User Profile Dropdown */}
+              <motion.div
+                ref={dropdownRef}
+                className="relative"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-3 backdrop-blur-sm bg-white/10 rounded-full px-4 py-2 border border-white/20 hover:bg-white/20 transition-all duration-300"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
+                      {authState.user?.name?.[0] || authState.user?.email?.[0]?.toUpperCase()}
+                    </span>
+                  </div>
+                  <span className="text-white font-medium text-sm">
+                    {authState.user?.name || authState.user?.email?.split('@')[0]}
+                  </span>
+                  <ChevronDown 
+                    className={`w-4 h-4 text-white/70 transition-transform duration-200 ${
+                      isDropdownOpen ? 'rotate-180' : ''
+                    }`} 
+                  />
+                </button>                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-64 backdrop-blur-2xl bg-gray-900/95 border-2 border-white/30 rounded-2xl shadow-2xl z-[9999]"
+                      style={{ 
+                        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 50%, rgba(51, 65, 85, 0.94) 100%)',
+                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      }}
+                    >                      {/* User Info Header */}
+                      <div className="px-4 py-3 border-b border-white/20 bg-gradient-to-r from-slate-800/60 to-slate-700/60">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center ring-2 ring-white/20">
+                            <span className="text-white font-medium">
+                              {authState.user?.name?.[0] || authState.user?.email?.[0]?.toUpperCase()}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="text-white font-semibold text-sm">
+                              {authState.user?.name || 'User'}
+                            </p>
+                            <p className="text-gray-300 text-xs">
+                              {authState.user?.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>                      {/* Menu Items */}
+                      <div className="py-2">
+                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
+                          <User className="w-4 h-4 text-blue-400" />
+                          <span className="text-sm font-medium">Account Settings</span>
+                        </button>
+                        
+                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
+                          <Settings className="w-4 h-4 text-emerald-400" />
+                          <span className="text-sm font-medium">Preferences</span>
+                        </button>
+                        
+                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
+                          <Bell className="w-4 h-4 text-yellow-400" />
+                          <span className="text-sm font-medium">Notifications</span>
+                        </button>
+                        
+                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
+                          <CreditCard className="w-4 h-4 text-green-400" />
+                          <span className="text-sm font-medium">Billing</span>
+                        </button>
+                        
+                        <div className="border-t border-white/20 mt-2 pt-2">
+                          <button
+                            onClick={() => {
+                              setIsDropdownOpen(false);
+                              onLogout();
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-red-300 hover:text-red-200 hover:bg-gradient-to-r hover:from-red-600/20 hover:to-red-500/20 transition-all duration-200 rounded-lg mx-2 font-medium"
+                          >
+                            <LogOut className="w-4 h-4" />
+                            <span className="text-sm">Sign Out</span>
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
-
-              {/* Settings */}
-              <motion.button
-                className="p-3 backdrop-blur-sm bg-white/10 rounded-full border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
-              >
-                <Settings className="w-5 h-5" />
-              </motion.button>
-
-              {/* Logout */}
-              <motion.button
-                onClick={onLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500/20 text-red-100 rounded-full border border-red-500/30 hover:bg-red-500/30 transition-all duration-300"
-              >
-                <LogOut className="w-4 h-4" />
-                <span className="text-sm font-medium">Logout</span>
-              </motion.button>
             </div>
           </div>
         </div>
@@ -301,11 +408,10 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                 {!recordingState.isRecording ? (
                   <motion.button
                     onClick={startRecording}
-                    disabled={recordingState.isProcessing}
-                    className={`group flex items-center gap-3 px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 ${
+                    disabled={recordingState.isProcessing}                    className={`group flex items-center gap-3 px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 ${
                       recordingState.isProcessing
                         ? 'bg-white/10 text-white/50 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl'
+                        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
                     }`}
                   >
                     <Mic className="w-6 h-6 transition-transform" />
@@ -333,10 +439,11 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
               transcribedText={recordingState.transcribedText}
               isGenerating={isGeneratingPDF}
               onGenerate={handleGeneratePDF}
-              onClear={clearTranscription}
-            />
+              onClear={clearTranscription}            />
           </motion.div>
-        </div>        {/* Stats Section */}
+        </div>
+
+        {/* Stats Section */}
         <motion.div
           className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6"
           initial={{ opacity: 0, y: 50 }}
@@ -345,8 +452,8 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
         >
           {[
             { icon: '🎤', label: 'Voice Sessions', value: '1,234', color: 'from-blue-500 to-cyan-500' },
-            { icon: '📄', label: 'Invoices Generated', value: '856', color: 'from-green-500 to-emerald-500' },
-            { icon: '⚡', label: 'Processing Speed', value: '2.3s', color: 'from-purple-500 to-pink-500' }
+            { icon: '📄', label: 'Invoices Generated', value: '856', color: 'from-blue-500 to-indigo-500' },
+            { icon: '🎯', label: 'Accuracy Rate', value: '97.8%', color: 'from-purple-500 to-pink-500' }
           ].map((stat, index) => (
             <motion.div
               key={index}
