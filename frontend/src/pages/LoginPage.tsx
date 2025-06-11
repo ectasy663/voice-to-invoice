@@ -27,9 +27,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);  const [error, setError] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
-  
-  const handleFillDemoCredentials = () => {
-    setEmail('test@thesolutionzone.com');
+    const handleFillDemoCredentials = () => {
+    setEmail('test@thedemologounge.com');
     setPassword('test123');
   };
 
@@ -120,10 +119,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-2">
-                    Welcome
+                >                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-1">
+                    The Demo Lounge
                   </h1>
+                  <p className="text-white/50 text-xs font-light italic mb-3">powered by gyannetra</p>
                   <p className="text-white/70 text-sm flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4" />
                     Sign in to access live demo
@@ -288,9 +287,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onAuthSuccess, onSwitchToSignUp, 
                 <div 
                   className="bg-green-500/20 rounded-lg p-3 border border-green-500/30 cursor-pointer hover:bg-green-500/30 transition-all duration-300"
                   onClick={handleFillDemoCredentials}
-                >
-                  <p className="text-green-200 font-medium mb-1">Test Email:</p>
-                  <p className="text-white font-mono bg-green-600/20 px-2 py-1 rounded">test@thesolutionzone.com</p>
+                >                  <p className="text-green-200 font-medium mb-1">Test Email:</p>
+                  <p className="text-white font-mono bg-green-600/20 px-2 py-1 rounded">test@thedemologounge.com</p>
                 </div>
                 
                 <div 

@@ -138,10 +138,10 @@ const OTPVerificationPage: React.FC<OTPVerificationPageProps> = ({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-green-100 to-blue-100 bg-clip-text text-transparent mb-2">
+                >                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-green-100 to-blue-100 bg-clip-text text-transparent mb-1">
                     Verify Your Email
                   </h1>
+                  <p className="text-white/50 text-xs font-light italic mb-3">powered by gyannetra</p>
                   <div className="flex items-center justify-center gap-2 text-white/70 text-sm mb-4">
                     <Mail className="w-4 h-4" />
                     <span>We've sent a 6-digit code to</span>

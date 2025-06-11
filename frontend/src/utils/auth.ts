@@ -17,12 +17,12 @@ const mockUsers: User[] = [
     name: 'Jane Smith'
   },  {
     id: '3',
-    email: 'demo@thesolutionzone.com',
+    email: 'demo@thedemologounge.com',
     name: 'Demo User'
   },
   {
     id: '4',
-    email: 'test@thesolutionzone.com',
+    email: 'test@thedemologounge.com',
     name: 'Test User'
   }
 ];
@@ -31,8 +31,8 @@ const mockUsers: User[] = [
 const mockPasswords: Record<string, string> = {
   'john.doe@example.com': 'password123',
   'jane.smith@example.com': 'password123',
-  'demo@thesolutionzone.com': 'password123',
-  'test@thesolutionzone.com': 'test123'
+  'demo@thedemologounge.com': 'password123',
+  'test@thedemologounge.com': 'test123'
 };
 
 // Temporary storage for pending authentications (before OTP verification)

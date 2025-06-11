@@ -11,7 +11,9 @@ import {
   Shield,
   UserPlus,
   CheckCircle,
-  LogIn
+  LogIn,
+  Building,
+  Briefcase
 } from 'lucide-react';
 import { initiateRegistration, validateEmail } from '../utils/auth';
 import { requestNotificationPermission } from '../utils/otp';
@@ -23,13 +25,14 @@ interface SignUpPageProps {
   onRequireOTP: (email: string, type: 'login' | 'signup') => void;
 }
 
-const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin, onRequireOTP }) => {
-  const [formData, setFormData] = useState({
+const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin, onRequireOTP }) => {  const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    companyName: '',
+    designation: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -44,7 +47,6 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
       [name]: value
     }));
   };
-
   const validateForm = () => {
     if (!formData.firstName.trim()) {
       return 'First name is required';
@@ -52,6 +54,14 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
     
     if (!formData.lastName.trim()) {
       return 'Last name is required';
+    }
+
+    if (!formData.companyName.trim()) {
+      return 'Company name is required';
+    }
+
+    if (!formData.designation.trim()) {
+      return 'Designation is required';
     }
 
     if (!formData.email || !validateEmail(formData.email)) {
@@ -138,26 +148,18 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-indigo-500/10 animate-pulse" />
             
             {/* Content */}
-            <div className="relative z-10">
-              {/* Logo and Title */}
+            <div className="relative z-10">              {/* Logo and Title */}
               <div className="text-center mb-8">
-                <motion.div 
-                  className="mx-auto w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg mb-6"
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  <UserPlus className="w-10 h-10 text-white" />
-                </motion.div>
-                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-2">
-                    Join TheSolutionZone
+                >                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-1">
+                    Join The Demo Lounge
                   </h1>
+                  <p className="text-white/80 text-sm mb-3 font-light italic">
+                    powered by gyannetra
+                  </p>
                   <p className="text-white/70 text-sm flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4" />
                     Create your account to get started
@@ -202,6 +204,42 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onAuthSuccess, onSwitchToLogin,
                         value={formData.lastName}
                         onChange={handleInputChange}                        className="block w-full pl-3 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
                         placeholder="Last name"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                    </div>                  </div>
+
+                  {/* Company Name and Designation Fields */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Building className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
+                      </div>
+                      <input
+                        id="companyName"
+                        name="companyName"
+                        type="text"
+                        required
+                        value={formData.companyName}
+                        onChange={handleInputChange}
+                        className="block w-full pl-10 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
+                        placeholder="Company name"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
+                    </div>
+
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Briefcase className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
+                      </div>
+                      <input
+                        id="designation"
+                        name="designation"
+                        type="text"
+                        required
+                        value={formData.designation}
+                        onChange={handleInputChange}
+                        className="block w-full pl-10 pr-3 py-4 border border-white/20 rounded-xl bg-white/5 backdrop-blur-sm placeholder-white/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
+                        placeholder="Designation"
                       />
                       <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300" />
                     </div>

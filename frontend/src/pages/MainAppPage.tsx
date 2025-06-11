@@ -1,24 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Mic, 
-  MicOff, 
-  LogOut, 
-  Settings, 
-  Zap, 
+import {
+  Mic,
+  MicOff,
+  LogOut,
+  Settings,
+  Zap,
   Volume2,
   Sparkles,
   Shield,
   User,
   ChevronDown,
-  Bell,
-  CreditCard
+  Bell
 } from 'lucide-react';
 import type { AuthState, RecordingState } from '../types';
-import { 
-  checkMediaRecordingSupport, 
-  requestMicrophonePermission, 
-  mockTranscribeVoice, 
+import {
+  checkMediaRecordingSupport,
+  requestMicrophonePermission,
+  mockTranscribeVoice,
   generateInvoicePDF
 } from '../utils/voice';
 import VoiceVisualizer from '../components/VoiceVisualizer';
@@ -27,9 +26,10 @@ import InvoicePreview from '../components/InvoicePreview';
 interface MainAppPageProps {
   authState: AuthState;
   onLogout: () => void;
+  onGoToUseCases: () => void;
 }
 
-const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
+const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout, onGoToUseCases }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -45,14 +45,14 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
-  }, [isDropdownOpen]);  const [recordingState, setRecordingState] = useState<RecordingState>({
+  }, [isDropdownOpen]); const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
     isProcessing: false,
     transcribedText: '',
     error: null
   });
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-  
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
@@ -77,7 +77,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
   const startRecording = async () => {
     try {
       setRecordingState(prev => ({ ...prev, error: null }));
-      
+
       const stream = await requestMicrophonePermission();
       if (!stream) {
         setRecordingState(prev => ({
@@ -109,7 +109,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
         try {
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
           const transcribedText = await mockTranscribeVoice(audioBlob);
-          
+
           setRecordingState(prev => ({
             ...prev,
             isProcessing: false,
@@ -173,7 +173,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
       transcribedText: '',
       error: null
     }));
-  };  return (
+  }; return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Header */}
       <motion.header
@@ -183,24 +183,24 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
         transition={{ duration: 0.6 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <motion.div 
-              className="flex items-center gap-4"
+          <div className="flex justify-between items-center h-20">            {/* Logo */}
+            <motion.button
+              onClick={onGoToUseCases}
+              className="flex items-center gap-4 hover:opacity-80 transition-opacity duration-300"
             >
               <div className="relative">
                 <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white" />
-              </div>
-              <div>
+              </div>              <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-                  TheSolutionZone
+                  The Demo Lounge
                 </h1>
+                <p className="text-white/50 text-xs font-light italic">powered by gyannetra</p>
                 <p className="text-white/60 text-sm">AI-Powered Solution</p>
               </div>
-            </motion.div>            {/* User Info & Actions */}
+            </motion.button>{/* User Info & Actions */}
             <div className="flex items-center gap-6">              {/* Book Consultation CTA */}
               <motion.a
                 href="https://schedule.fillout.com/t/3XsBwh8ipfus"
@@ -211,17 +211,17 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.25 }}
               >
-                <svg 
-                  className="w-4 h-4" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" 
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
                 <span>Book Consultation</span>
@@ -247,10 +247,9 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                   <span className="text-white font-medium text-sm">
                     {authState.user?.name || authState.user?.email?.split('@')[0]}
                   </span>
-                  <ChevronDown 
-                    className={`w-4 h-4 text-white/70 transition-transform duration-200 ${
-                      isDropdownOpen ? 'rotate-180' : ''
-                    }`} 
+                  <ChevronDown
+                    className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>                {/* Dropdown Menu */}
                 <AnimatePresence>
@@ -261,7 +260,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.15 }}
                       className="absolute right-0 mt-2 w-64 backdrop-blur-2xl bg-gray-900/95 border-2 border-white/30 rounded-2xl shadow-2xl z-[9999]"
-                      style={{ 
+                      style={{
                         background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 50%, rgba(51, 65, 85, 0.94) 100%)',
                         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                       }}
@@ -288,20 +287,13 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                           <User className="w-4 h-4 text-blue-400" />
                           <span className="text-sm font-medium">Account Settings</span>
                         </button>
-                        
+
                         <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
                           <Settings className="w-4 h-4 text-emerald-400" />
                           <span className="text-sm font-medium">Preferences</span>
-                        </button>
-                        
-                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
+                        </button>                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
                           <Bell className="w-4 h-4 text-yellow-400" />
                           <span className="text-sm font-medium">Notifications</span>
-                        </button>
-                        
-                        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-200 rounded-lg mx-2">
-                          <CreditCard className="w-4 h-4 text-green-400" />
-                          <span className="text-sm font-medium">Billing</span>
                         </button>
                         
                         <div className="border-t border-white/20 mt-2 pt-2">
@@ -329,7 +321,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-12rem)]">
-          
+
           {/* Recording Section */}
           <motion.div
             className="flex flex-col h-full"
@@ -368,7 +360,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
 
               {/* Voice Visualizer */}
               <div className="flex-1 flex items-center justify-center">
-                <VoiceVisualizer 
+                <VoiceVisualizer
                   isRecording={recordingState.isRecording}
                   isProcessing={recordingState.isProcessing}
                 />
@@ -407,11 +399,10 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                 {!recordingState.isRecording ? (
                   <motion.button
                     onClick={startRecording}
-                    disabled={recordingState.isProcessing}                    className={`group flex items-center gap-3 px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 ${
-                      recordingState.isProcessing
+                    disabled={recordingState.isProcessing} className={`group flex items-center gap-3 px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 ${recordingState.isProcessing
                         ? 'bg-white/10 text-white/50 cursor-not-allowed'
                         : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
-                    }`}
+                      }`}
                   >
                     <Mic className="w-6 h-6 transition-transform" />
                     Start Recording
@@ -438,7 +429,7 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
               transcribedText={recordingState.transcribedText}
               isGenerating={isGeneratingPDF}
               onGenerate={handleGeneratePDF}
-              onClear={clearTranscription}            />
+              onClear={clearTranscription} />
           </motion.div>
         </div>
 
