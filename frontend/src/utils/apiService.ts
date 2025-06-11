@@ -3,13 +3,13 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 
 export interface SendOTPRequest {
   email: string;
-  purpose: 'login' | 'signup';
+  purpose: 'login' | 'signup' | 'reset';
 }
 
 export interface VerifyOTPRequest {
   email: string;
   otp_code: string;
-  purpose: 'login' | 'signup';
+  purpose: 'login' | 'signup' | 'reset';
 }
 
 export interface APIResponse {
@@ -19,7 +19,7 @@ export interface APIResponse {
   otp_code?: string; // For demo mode
 }
 
-export const sendOTP = async (email: string, purpose: 'login' | 'signup'): Promise<APIResponse> => {
+export const sendOTP = async (email: string, purpose: 'login' | 'signup' | 'reset'): Promise<APIResponse> => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/send-otp`, {
       method: 'POST',
@@ -42,7 +42,7 @@ export const sendOTP = async (email: string, purpose: 'login' | 'signup'): Promi
   }
 };
 
-export const verifyOTP = async (email: string, otp_code: string, purpose: 'login' | 'signup'): Promise<APIResponse> => {
+export const verifyOTP = async (email: string, otp_code: string, purpose: 'login' | 'signup' | 'reset'): Promise<APIResponse> => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
       method: 'POST',

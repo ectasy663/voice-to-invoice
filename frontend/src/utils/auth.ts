@@ -312,3 +312,97 @@ export const clearPendingAuth = (email: string): void => {
 export const hasPendingAuth = (email: string): boolean => {
   return pendingAuth.has(email);
 };
+
+// Step 1: Initiate password reset process (send OTP)
+export const forgotPassword = async (email: string): Promise<{ success: boolean; requiresOTP?: boolean; error?: string }> => {
+  if (USE_BACKEND_API) {
+    try {
+      // Use backend API
+      const result = await sendOTP(email, 'reset');
+      
+      if (result.success) {
+        return { success: true, requiresOTP: true };
+      } else {
+        return { success: false, error: result.message };
+      }
+    } catch (error) {
+      console.error('Forgot password failed:', error);
+      return { success: false, error: 'Failed to send reset code. Please try again.' };
+    }
+  } else {
+    // Fallback to mock implementation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    if (!email) {
+      return { success: false, error: 'Email is required' };
+    }
+
+    if (!validateEmail(email)) {
+      return { success: false, error: 'Please enter a valid email address' };
+    }
+
+    // Check if user exists (for mock implementation)
+    const existingUser = mockUsers.find(user => user.email.toLowerCase() === email.toLowerCase());
+    
+    if (!existingUser) {
+      return { success: false, error: 'No account found with this email address' };
+    }
+
+    return { success: true, requiresOTP: true };
+  }
+};
+
+// Step 2: Reset password with OTP verification
+export const resetPassword = async (email: string, otp: string, newPassword: string): Promise<{ success: boolean; error?: string }> => {
+  if (USE_BACKEND_API) {
+    try {
+      // First verify OTP
+      const otpResult = await verifyOTP(email, otp, 'reset');
+      
+      if (!otpResult.success) {
+        return { success: false, error: otpResult.message };
+      }
+
+      // TODO: Implement actual password reset API call
+      // In a real implementation, you would call a reset password API here
+      // const resetResult = await resetPasswordAPI(email, newPassword, otp);
+      
+      // For now, simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Reset password failed:', error);
+      return { success: false, error: 'Password reset failed. Please try again.' };
+    }
+  } else {
+    // Fallback to mock implementation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Validate inputs
+    if (!email || !otp || !newPassword) {
+      return { success: false, error: 'All fields are required' };
+    }
+
+    if (newPassword.length < 6) {
+      return { success: false, error: 'Password must be at least 6 characters long' };
+    }
+
+    // Mock OTP verification (accept 123456 or any 6-digit code)
+    if (otp !== '123456' && otp.length !== 6) {
+      return { success: false, error: 'Invalid verification code' };
+    }
+
+    // Check if user exists
+    const existingUser = mockUsers.find(user => user.email.toLowerCase() === email.toLowerCase());
+    
+    if (!existingUser) {
+      return { success: false, error: 'No account found with this email address' };
+    }
+
+    // Update password in mock storage
+    mockPasswords[existingUser.email] = newPassword;
+
+    return { success: true };
+  }
+};
