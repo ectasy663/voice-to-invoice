@@ -201,10 +201,9 @@ const MainAppPage: React.FC<MainAppPageProps> = ({ authState, onLogout }) => {
                 <p className="text-white/60 text-sm">AI-Powered Solution</p>
               </div>
             </motion.div>            {/* User Info & Actions */}
-            <div className="flex items-center gap-6">
-              {/* Book Consultation CTA */}
+            <div className="flex items-center gap-6">              {/* Book Consultation CTA */}
               <motion.a
-                href="#consultation" // You can replace this with your actual link
+                href="https://schedule.fillout.com/t/3XsBwh8ipfus"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full font-medium text-sm hover:from-emerald-600 hover:to-teal-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-emerald-400/30"
